@@ -441,7 +441,7 @@
                 
               
 
-              <time title="创建时间：2020-05-06 22:51:36 / 修改时间：22:54:17" itemprop="dateCreated datePublished" datetime="2020-05-06T22:51:36+08:00">2020-05-06</time>
+              <time title="创建时间：2020-05-06 22:51:36 / 修改时间：22:59:38" itemprop="dateCreated datePublished" datetime="2020-05-06T22:51:36+08:00">2020-05-06</time>
             
 
             
@@ -499,8 +499,7 @@
 
       
         
-          
-            <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>​    发现对于落地这件事情还是要静下心一个一个目标完成，设计模式一直搁浅了好久也没个系统整理，作为网上标配开篇，最近还是补上这个作业吧</p>
+          <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>​    发现对于落地这件事情还是要静下心一个一个目标完成，设计模式一直搁浅了好久也没个系统整理，作为网上标配开篇，最近还是补上这个作业吧</p>
 <ol>
 <li><p>为什么用设计模式</p>
 <ul>
@@ -522,42 +521,15 @@
 <p>以上原则只是设计参考的一个约束，并不绝对，对于“最好的设计模式就是不用设计模式”，我们还没有达到这个境界，只有合适的场景用更合适的方法。</p>
 </li>
 </ol>
-<h3 id="设计模式-创建型"><a href="#设计模式-创建型" class="headerlink" title="设计模式-创建型"></a>设计模式-创建型</h3><p>目的：实例化过程的解耦</p>
-<p>​    我们原先想获取一个新对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object o = <span class="keyword">new</span> Object();</span><br></pre></td></tr></table></figure>
-<p>   之后在创建新对象的场景可以参考考虑一下使用以下的思路</p>
-<ol>
-<li><h5 id="单例模式：一个类只能有一个实例，提供全局唯一的访问点"><a href="#单例模式：一个类只能有一个实例，提供全局唯一的访问点" class="headerlink" title="单例模式：一个类只能有一个实例，提供全局唯一的访问点"></a>单例模式：一个类只能有一个实例，提供全局唯一的访问点</h5><ul>
-<li>匿名内部类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingletonInnerClass</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 私有构造器保证不能new 创建新实例</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonInnerClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingletonInnerClass <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonInner.instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonInner</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SingletonInnerClass instance = <span class="keyword">new</span> SingletonInnerClass();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>枚举类型</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> SingletonEnum &#123;</span><br><span class="line">    INSTACN；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li><p>双重检查锁</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingletonDCL</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> SingletonDCL instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonDCL</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingletonDCL <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (SingletonDCL.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> SingletonDCL();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>Spring单例注册表</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getBean</span><span class="params">(String name,Class requiredType,Object[] args)</span><span class="keyword">throws</span> BeansException</span>&#123;  </span><br><span class="line">          <span class="comment">//对传入的Bean name稍做处理，防止传入的Bean name名有非法字符(或则做转码)  </span></span><br><span class="line">          String beanName=transformedBeanName(name);  </span><br><span class="line">          Object bean=<span class="keyword">null</span>;  </span><br><span class="line">          <span class="comment">//手工检测单例注册表  </span></span><br><span class="line">          Object sharedInstance=<span class="keyword">null</span>;  </span><br><span class="line">          <span class="comment">//使用了代码锁定同步块，原理和同步方法相似，但是这种写法效率更高  </span></span><br><span class="line">          <span class="keyword">synchronized</span>(<span class="keyword">this</span>.singletonCache)&#123;  </span><br><span class="line">             sharedInstance=<span class="keyword">this</span>.singletonCache.get(beanName);  </span><br><span class="line">           &#125;  </span><br><span class="line">          <span class="keyword">if</span>(sharedInstance!=<span class="keyword">null</span>)&#123;  </span><br><span class="line">             ...  </span><br><span class="line">             <span class="comment">//返回合适的缓存Bean实例  </span></span><br><span class="line">             bean=getObjectForSharedInstance(name,sharedInstance);  </span><br><span class="line">          &#125;<span class="keyword">else</span>&#123;  </span><br><span class="line">            ...  </span><br><span class="line">            <span class="comment">//取得Bean的定义  </span></span><br><span class="line">            RootBeanDefinition mergedBeanDefinition=getMergedBeanDefinition(beanName,<span class="keyword">false</span>);  </span><br><span class="line">             ...  </span><br><span class="line">            <span class="comment">//根据Bean定义判断，此判断依据通常来自于组件配置文件的单例属性开关  </span></span><br><span class="line">            <span class="comment">//如果是单例，做如下处理  </span></span><br><span class="line">            <span class="keyword">if</span>(mergedBeanDefinition.isSingleton())&#123;  </span><br><span class="line">               <span class="keyword">synchronized</span>(<span class="keyword">this</span>.singletonCache)&#123;  </span><br><span class="line">                <span class="comment">//再次检测单例注册表  </span></span><br><span class="line">                 sharedInstance=<span class="keyword">this</span>.singletonCache.get(beanName);  </span><br><span class="line">                 <span class="keyword">if</span>(sharedInstance==<span class="keyword">null</span>)&#123;  </span><br><span class="line">                    ...  </span><br><span class="line">                   <span class="keyword">try</span> &#123;  </span><br><span class="line">                      <span class="comment">//真正创建Bean实例  </span></span><br><span class="line">                      sharedInstance=createBean(beanName,mergedBeanDefinition,args);  </span><br><span class="line">                      <span class="comment">//向单例注册表注册Bean实例  </span></span><br><span class="line">                       addSingleton(beanName,sharedInstance);  </span><br><span class="line">                   &#125;<span class="keyword">catch</span> (Exception ex) &#123;  </span><br><span class="line">                      ...  </span><br><span class="line">                   &#125;<span class="keyword">finally</span>&#123;  </span><br><span class="line">                      ...  </span><br><span class="line">                  &#125;  </span><br><span class="line">                 &#125;  </span><br><span class="line">               &#125;  </span><br><span class="line">              bean=getObjectForSharedInstance(name,sharedInstance);  </span><br><span class="line">            &#125;  </span><br><span class="line">           <span class="comment">//如果是非单例，即prototpye，每次都要新创建一个Bean实例  </span></span><br><span class="line">           <span class="comment">//&lt;bean id="date" class="java.util.Date" scope="prototype"/&gt;  </span></span><br><span class="line">           <span class="keyword">else</span>&#123;  </span><br><span class="line">              bean=createBean(beanName,mergedBeanDefinition,args);  </span><br><span class="line">           &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    ...  </span><br><span class="line">       <span class="keyword">return</span> bean;  </span><br><span class="line">    &#125;  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<p>ToDo</p>
-<ol>
-<li><h5 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h5></li>
-<li><h5 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h5></li>
-<li><h5 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h5></li>
-<li><h5 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h5></li>
-<li><h5 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h5></li>
-</ol>
-
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/05/06/设计模式-创建型/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
