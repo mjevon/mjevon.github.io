@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[设计模式-创建型]]></title>
+    <url>%2F2020%2F05%2F06%2F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[写在前面​ 发现对于落地这件事情还是要静下心一个一个目标完成，设计模式一直搁浅了好久也没个系统整理，作为网上标配开篇，最近还是补上这个作业吧 为什么用设计模式 设计模式是前人总结下来的经验，对于扩展性和可维护性有很大帮助 也是为了使设计变得简单，容易阅读 设计模式原则（SOLID） 单一职责原则（Single Responsibility Principle）：可以理解为最好一个类只负责一项职责 开闭原则（Open Close Priciple）：尽量对扩展开放，对修改关闭 里氏替换原则（Liskov Substitution Principle）：引用父类处可以用任意子类代替 接口隔离原则（Interface Segregation priciple）：建立单一接口，最好是一个类依赖一个接口，而不是多个类依赖一个接口 依赖倒置原则 (Dependency InVersion Principle) ：调用方和实现方都应该依赖抽象，彼此相互独立，实现类应该依赖抽象，而不能反过来 迪米特法则（Law of Demeter）：一个对象保持对其他对象最少的了解 如何使用设计模式 以上原则只是设计参考的一个约束，并不绝对，对于“最好的设计模式就是不用设计模式”，我们还没有达到这个境界，只有合适的场景用更合适的方法。 设计模式-创建型目的：实例化过程的解耦 ​ 我们原先想获取一个新对象 1Object o = new Object(); 之后在创建新对象的场景可以参考考虑一下使用以下的思路 单例模式：一个类只能有一个实例，提供全局唯一的访问点 匿名内部类 12345678910111213class SingletonInnerClass &#123; // 私有构造器保证不能new 创建新实例 private SingletonInnerClass() &#123; &#125; public static SingletonInnerClass getInstance() &#123; return SingletonInner.instance; &#125; private static class SingletonInner &#123; private static final SingletonInnerClass instance = new SingletonInnerClass(); &#125;&#125; 枚举类型 123enum SingletonEnum &#123; INSTACN；&#125; 双重检查锁 123456789101112131415161718class SingletonDCL &#123; private volatile static SingletonDCL instance; private SingletonDCL() &#123; &#125; public static SingletonDCL getInstance() &#123; if (instance == null) &#123; synchronized (SingletonDCL.class) &#123; if (instance == null) &#123; instance = new SingletonDCL(); &#125; &#125; &#125; return instance; &#125;&#125; Spring单例注册表 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051public Object getBean(String name,Class requiredType,Object[] args)throws BeansException&#123; //对传入的Bean name稍做处理，防止传入的Bean name名有非法字符(或则做转码) String beanName=transformedBeanName(name); Object bean=null; //手工检测单例注册表 Object sharedInstance=null; //使用了代码锁定同步块，原理和同步方法相似，但是这种写法效率更高 synchronized(this.singletonCache)&#123; sharedInstance=this.singletonCache.get(beanName); &#125; if(sharedInstance!=null)&#123; ... //返回合适的缓存Bean实例 bean=getObjectForSharedInstance(name,sharedInstance); &#125;else&#123; ... //取得Bean的定义 RootBeanDefinition mergedBeanDefinition=getMergedBeanDefinition(beanName,false); ... //根据Bean定义判断，此判断依据通常来自于组件配置文件的单例属性开关 //如果是单例，做如下处理 if(mergedBeanDefinition.isSingleton())&#123; synchronized(this.singletonCache)&#123; //再次检测单例注册表 sharedInstance=this.singletonCache.get(beanName); if(sharedInstance==null)&#123; ... try &#123; //真正创建Bean实例 sharedInstance=createBean(beanName,mergedBeanDefinition,args); //向单例注册表注册Bean实例 addSingleton(beanName,sharedInstance); &#125;catch (Exception ex) &#123; ... &#125;finally&#123; ... &#125; &#125; &#125; bean=getObjectForSharedInstance(name,sharedInstance); &#125; //如果是非单例，即prototpye，每次都要新创建一个Bean实例 //&lt;bean id="date" class="java.util.Date" scope="prototype"/&gt; else&#123; bean=createBean(beanName,mergedBeanDefinition,args); &#125; &#125; ... return bean; &#125; &#125; ToDo 简单工厂 工厂方法 抽象工厂 建造者模式 原型模式]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Relational And Non-Relational Storage System]]></title>
+    <url>%2F2019%2F05%2F05%2FRelational-And-Non-Relational-Storage-System%2F</url>
+    <content type="text"><![CDATA[最近在研究ES的同时,有如下问题 数据存储发展历史 关系型和非关系型对比 非关系型数据库是否支持事物 下面对以上问题进行展开 数据存储发展历史TimeLine 数据管理是数据库的核心任务,分类、组织、编码、储存、检索和维护 人工管理阶段 没有对数据进行管理的软件系统 没有文件的概念 一组数据对应于一个程序，数据是面向应用的 数据不保存 文件系统阶段 数据需要长期保存在外存上供反复使用 程序之间有了一定的独立性 文件的形式已经多样化 数据的存取基本上以记录为单位 数据库系统阶段 采用复杂的结构化的数据模型 较高的数据独立性 最低的冗余度 数据控制功能 数据模型是数据库系统的核心 第一代: 层次和网状数据库管理系统 第二代: 关系数据库管理系统(RDBMS) 第三代: 面向对象的方法和技术，例如建立对象关系(OR)模型和建立对象关系数据库(ORDB) 数据库技术与多学科技术的有机结合: 例如分布式数据库、并行数据库、演绎数据库、知识库、多媒体库、移动数据库等 面向专门应用领域的数据库技术: 例如工程数据库、统计数据库、科学数据库、空间数据库、地理数据库、Web数据库 关系和非关系型对比 对比 Relational Non-Relational 定义 采用了关系模型来组织数据的数据库 非关系型的，分布式的，且一般不保证遵循ACID原则的数据存储系统 优点 容易理解 仅需要根据id取出相应的value就可以完成查询 使用方便 适用于SNS(Social Networking Services),数据结构巨大变动 易于维护 非关系型数据库严格上不是一种数据库，应该是一种数据结构化存储方法的集合 问题 硬盘I/O瓶颈 只适合存储一些较为简单的数据 海量数据效率低下 不适合持久存储海量数据 web的结构中难以横向扩展，需要停机和数据迁移 不适合较复杂查询的数据 格式化的数据结构，多表关联查询性能欠佳 事务 必须具备ACID特性 不支持 成本 相比较高且复杂 简单易部署，较低 查询速度 较慢 数据存储于缓存之中，而且不需要经过SQL层的解析，较快 存储数据的格式 只支持基础类型 key,value形式、文档形式、图片形式等等，基础类型以及对象或者是集合等各种格式 扩展性 扩展很艰难 数据之间没有耦合性，所以非常容易水平扩展 持久存储 海量数据的持久存储，还是需要关系型数据库 不适用于持久存储 数据一致性 强一致性 数据最终一致性，有可能有中间态的数据 主流系统 Oracle，Microsoft SQL Server，MySQL，PostgreSQL，DB2,Microsoft Access， SQLite，Teradata，MariaDB(MySQL的一个分支)，SAP 面向高性能并发读写的key-value数据库：主流代表为Redis， Amazon DynamoDB， Memcached,Microsoft Azure Cosmos DB和Hazelcast 面向海量数据访问的面向文档数据库：主流代表为MongoDB，Amazon DynamoDB，Couchbase,Microsoft Azure Cosmos DB和CouchDB 面向搜索数据内容的搜索引擎：主流代表为Elasticsearch，Splunk，Solr，MarkLogic和Sphinx 面向可扩展性的分布式数据库：主流代表为Cassandra，HBase，Microsoft Azure Cosmos DB,Datastax Enterprise和Accumulo 非关系型数据库是否支持事物 可扩展系统是可以支持高性能分布式原子事务的 在公平性、隔离性和吞吐量（FIT）三者之间进行取舍,一个支持分布式原子事务的可扩展数据库至少可以实现上述三个属性中的两个 公平性: 任何事务的执行都不会因为其它事务被故意延迟 隔离性: 确保相互冲突的事务可以看到其它事务的写入操作 FIT三者之间的取舍可以产生三种支持分布式原子事务的方案： 保证公平性和隔离性(FI),牺牲吞吐量 保证公平性和吞吐量(FT),牺牲隔离性 保证隔离性和吞吐量(IT),牺牲公平性 放弃隔离性或者放弃公平性都可以构建出具备高分布式事务吞吐量的可扩展系统 参考: 数据库的历史发展 - 毕富国的博客 - CSDN博客 简述关系型数据库和非关系型数据库 最近的数据库排名 NoSql对于事务的支持 - 克终的博客 - CSDN博客]]></content>
+      <categories>
+        <category>Database</category>
+      </categories>
+      <tags>
+        <tag>Database</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[微服务之熔断降级]]></title>
+    <url>%2F2019%2F04%2F13%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7%2F</url>
+    <content type="text"><![CDATA[Keys 滑动窗口: 滑动窗口协议（Sliding Window Protocol），属于TCP协议的一种应用，用于网络数据传输时的流量控制，以避免拥塞的发生。该协议允许发送方在停止并等待确认前发送多个数据分组。由于发送方不必每发一个分组就停下来等待确认，因此该协议可以加速数据的传输，提高网络吞吐量 常用熔断框架比较 对比 Sentinel Hystrix resilience4j 隔离策略 信号量隔离（并发线程数限流） 线程池隔离/信号量隔离 信号量隔离 熔断降级策略 基于响应时间、异常比率、异常数 基于异常比率 基于异常比率、响应时间 实时统计实现 滑动窗口（LeapArray） 滑动窗口（基于 RxJava） Ring Bit Buffer 动态规则配置 支持多种数据源 支持多种数据源 有限支持 扩展性 多个扩展点 插件的形式 接口的形式 基于注解的支持 支持 支持 支持 限流 基于 QPS，支持基于调用关系的限流 有限的支持 Rate Limiter 流量整形 支持预热模式、匀速器模式、预热排队模式 不支持 简单的 Rate Limiter 模式 系统自适应保护 支持 不支持 不支持 控制台 提供开箱即用的控制台，可配置规则、查看秒级监控、机器发现等 简单的监控查看 不提供控制台，可对接其它监控系统 线程和信号量的比较 对比 信号量 线程池 排队和超时 不支持 支持 异步调用 不支持 支持 额外开销 无 有 适用 受信客户(可预估量级) 不受信客户(第三方，数据库访问) 高扇出(网关，依赖多) 有限扇出 高频高速调用(缓存) – 综上，比较倾向于使用Sentinel，因为Hystrix官方已不再开发，而resilience4j不太适合比较复杂的场景。 参考 限流熔断技术选型：从Hystrix到Sentinel微服务架构—服务降级]]></content>
+      <categories>
+        <category>微服务</category>
+      </categories>
+      <tags>
+        <tag>熔断</tag>
+        <tag>微服务</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[微服务之配置中心]]></title>
+    <url>%2F2019%2F04%2F04%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%2F</url>
+    <content type="text"><![CDATA[感谢董老师带领入门 概述：微服务架构体系中配置中心是比较重要的组件之一，Spring Cloud官方自身提供了Spring Cloud Config分布式配置中心，由它来提供集中化的外部配置支持，它分为客户端和服务端两个部分 为什么需要配置中心 配置实时生效 配置管理流程: 权限管控、灰度发布、版本管理、格式检验和安全配置等 开源配置中心: 对比 Spring Cloud Config Apollo Nacos 应用 和对应Git中的文件名称关联 在某个应用下面（不包含公共配置） 使用 Group 作应用字段 集群 支持 支持 支持 灰度发布 /bus/refresh端点的destination参数来指定 支持 不支持（0.9） 权限管理 依赖Git，比较完善 通过项目的维度来对配置进行权限管理 不支持 版本管理&amp;回滚 支持 支持 支持 配置格式校验 不支持 支持 支持 监听查询 支持订阅 灰度实例列表 支持 多环境 支持 支持 支持 多集群 支持 支持 支持 实时推送 不支持 支持 支持 高可用 GitHub不需要，私有git需要，成本高较复杂 本地缓存文件保证 Mysql提供持久化 运维成本 高可用成本高 高 低 多语言支持 Java和HTTP API，动态配置不足 open API，接入成本较低 主流语言，提供open API 迁移支持 支持 支持，存在从cloud config转换的兼容成本 支持，可以无缝从Spring Cloud Conig切换 性能对比 从git拉取较慢 较快，缓存+db 较快，db 版本 2.0.0.M9 1.2.0 release 0.5 单机读 7QPS DB:7000QPS,cache:9000QPS 15000QPS 注：Nacos和Apollo使用同样的数据库（32C128G），部署Server服务的机器使用的8C16G配置的容器，磁盘是100G SSD多台机器，每台机器开启多个线程从配置中心读取不同的配置（3000个）]]></content>
+      <categories>
+        <category>微服务</category>
+      </categories>
+      <tags>
+        <tag>微服务</tag>
+        <tag>Java</tag>
+        <tag>config</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Mysql的那些坑]]></title>
+    <url>%2F2019%2F04%2F02%2FMysql%E7%9A%84%E9%82%A3%E4%BA%9B%E5%9D%91%2F</url>
+    <content type="text"><![CDATA[windows 免安装版 参照下面这个安装流程 windows下MySQL免安装版配置教程mysql-5.7.23-winx64.zip版本 当发生报错如下 发生系统错误 193 。 *** 不是有效的 Win32程序。 解决办法: Mysql安装目录中的bin文件夹中，删除一个mysqld大小为0kb的文件]]></content>
+      <categories>
+        <category>安装环境</category>
+      </categories>
+      <tags>
+        <tag>Mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F03%2F31%2Fhello%2F</url>
+    <content type="text"><![CDATA[博客搭建初始化开始写博客！（之前搭过得，又忘记了怎么玩，只能重搞T_T）今天竟然经历了做开发以来的第二次加班….困]]></content>
+      <categories>
+        <category>搭建博客</category>
+      </categories>
+  </entry>
+</search>
