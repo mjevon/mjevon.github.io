@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[设计模式-结构型]]></title>
     <url>%2F2020%2F05%2F13%2F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%2F</url>
-    <content type="text"><![CDATA[写在前面 什么是结构型的设计模式 类结构型：多个类组合成更大的类，只存在类继承和实现关系 对象结构型：类和对象组合的关联关系，根据合成复用原则，尽量使用关联关系代替继承 为什么要用组装现有类成为一个更大的结构，扩展出更强大的功能 模式类型​ 外观模式（Facade） 说明：统一方法对象访问内部接口 结构 Facade SubInterface 适用场景 常用的MVC分层就是一种外观模式，比如service层聚合了dao 统一接入的API网关 代理模式（Proxy） 说明：通过一个代理对象控制原对象 有一句名言可以让我们联想下 计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决 结构 Proxy Source SourceImpl 适用场景 TODO 组合模式 （Composite） 说明 结构 适用场景 适配器模式（Adapter） 说明 结构 适用场景 装饰器模式（Decorator） 说明 结构 适用场景 桥接模式 （Bridge） 说明 结构 适用场景 享元模式（蝇量，FlyWeight） 说明 结构 适用场景 总结]]></content>
+    <content type="text"><![CDATA[写在前面 什么是结构型的设计模式 类结构型：多个类组合成更大的类，只存在类继承和实现关系 对象结构型：类和对象组合的关联关系，根据合成复用原则，尽量使用关联关系代替继承 为什么要用组装现有类成为一个更大的结构，扩展出更强大的功能 模式类型 注：按重要程度排序 外观模式（Facade） 说明：统一方法对象访问内部接口 结构 Facade SubInterface 适用场景 常用的MVC分层就是一种外观模式，比如service层聚合了dao 统一接入的API网关 代理模式（Proxy） 说明：通过一个代理对象控制原对象 有一句名言可以让我们联想下 计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决 结构 Proxy Source SourceImpl 适用场景 TODO 组合模式 （Composite） 说明 结构 适用场景 适配器模式（Adapter） 说明 结构 适用场景 装饰器模式（Decorator） 说明 结构 适用场景 桥接模式 （Bridge） 说明 结构 适用场景 享元模式（蝇量，FlyWeight） 说明 结构 适用场景 总结]]></content>
       <categories>
         <category>设计模式</category>
       </categories>
@@ -43,9 +43,9 @@
         <category>微服务</category>
       </categories>
       <tags>
-        <tag>Java</tag>
-        <tag>微服务</tag>
         <tag>熔断</tag>
+        <tag>微服务</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -56,9 +56,9 @@
         <category>微服务</category>
       </categories>
       <tags>
+        <tag>微服务</tag>
         <tag>Java</tag>
         <tag>config</tag>
-        <tag>微服务</tag>
       </tags>
   </entry>
   <entry>
