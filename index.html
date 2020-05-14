@@ -458,7 +458,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-05-14 22:57:47" itemprop="dateModified" datetime="2020-05-14T22:57:47+08:00">2020-05-14</time>
+                <time title="修改时间：2020-05-14 22:58:30" itemprop="dateModified" datetime="2020-05-14T22:58:30+08:00">2020-05-14</time>
               
             
           </span>
@@ -511,8 +511,7 @@
 
       
         
-          
-            <h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><ol>
+          <h4 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h4><ol>
 <li><h5 id="什么是结构型的设计模式"><a href="#什么是结构型的设计模式" class="headerlink" title="什么是结构型的设计模式"></a>什么是结构型的设计模式</h5><ul>
 <li>类结构型：多个类组合成更大的类，只存在类继承和实现关系</li>
 <li>对象结构型：类和对象组合的关联关系，根据合成复用原则，尽量使用关联关系代替继承</li>
@@ -522,112 +521,19 @@
 <h4 id="模式类型"><a href="#模式类型" class="headerlink" title="模式类型"></a>模式类型</h4></li>
 </ol>
 <blockquote>
-<p>注：按重要程度排序</p>
-</blockquote>
-<ol>
-<li><h5 id="外观模式（Facade）"><a href="#外观模式（Facade）" class="headerlink" title="外观模式（Facade）"></a>外观模式（Facade）</h5><ul>
-<li>说明：统一方法对象访问内部接口</li>
-<li>结构<ul>
-<li>Facade</li>
-<li>SubInterface</li>
-</ul>
-</li>
-<li>适用场景<ul>
-<li>常用的MVC分层就是一种外观模式，比如service层聚合了dao</li>
-<li>统一接入的API网关</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><h5 id="代理模式（Proxy）"><a href="#代理模式（Proxy）" class="headerlink" title="代理模式（Proxy）"></a>代理模式（Proxy）</h5><ul>
-<li><p>说明：通过一个代理对象控制原对象</p>
-<p>有一句名言可以让我们联想下</p>
-<blockquote>
-<p>计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决</p>
-</blockquote>
-</li>
-<li><p>结构</p>
-<ul>
-<li><p>Proxy：代理类</p>
-</li>
-<li><p>Source：被代理类</p>
-</li>
-<li><p>SourceImpl：</p>
-<blockquote>
-<p>静态代理：代理和被代理对象都需要实现目标接口，在运行前就有Class文件了</p>
-<p>动态代理：代理类和被代理类有一种关联关系，动态生成字节码加载到JVM中，编译完没有Class文件</p>
-<ul>
-<li>JDK动态代理：依靠反射机制获取接口实现</li>
-<li>Cglib动态代理：对目标类生成子类以覆盖其子类方法</li>
-</ul>
-</blockquote>
-<p>如下是一个静态代理的实现，但是扩展的时候需要一个类一个代理类，过多冗余所以又有了动态代理</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Proxy proxy = <span class="keyword">new</span> Proxy();</span><br><span class="line">        proxy.invoke();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Source</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">invoke</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sourceable</span> <span class="keyword">implements</span> <span class="title">Source</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"real invoke"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">Source</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        before();</span><br><span class="line">        Sourceable sourceable = <span class="keyword">new</span> Sourceable();</span><br><span class="line">        sourceable.invoke();</span><br><span class="line">        after();</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">// 增强功能</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>jdk动态代理</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * jdk动态代理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JdkProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object target;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object SelfProxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line">        Object result = method.invoke(target, args);</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用入口，</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">jdkProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="comment">// 原理：通过反射获取接口方法对象，所以必须依赖接口</span></span><br><span class="line">        Source source = (Source)Proxy.newProxyInstance(Source.class.getClassLoader(),</span><br><span class="line">                <span class="keyword">new</span> Class[]&#123;Source.class&#125;,</span><br><span class="line">                <span class="keyword">new</span> JdkProxy(<span class="keyword">new</span> Sourceable()));</span><br><span class="line">        source.invoke();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>cglib动态代理</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CglibProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object o, Method method, Object[] objects, MethodProxy methodProxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"before"</span>);</span><br><span class="line">        Object result = methodProxy.invokeSuper(o, objects);</span><br><span class="line">        System.out.println(<span class="string">"after"</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//调用入口</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cglibProxy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 原理：对目标类生成一个子类，覆盖其中方法，所以不能对final修饰的方法</span></span><br><span class="line">        Enhancer enhancer = <span class="keyword">new</span> Enhancer();</span><br><span class="line">        enhancer.setSuperclass(ProxyTarget.class);</span><br><span class="line">        enhancer.setCallback(<span class="keyword">new</span> CglibProxy());</span><br><span class="line">        ProxyTarget proxyTarget = (ProxyTarget) enhancer.create();</span><br><span class="line">        proxyTarget.invoke();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>适用场景</p>
-<ul>
-<li>Aop：日志记录/性能统计/安全控制/事物处理/异常处理</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><h5 id="组合模式-（Composite）"><a href="#组合模式-（Composite）" class="headerlink" title="组合模式 （Composite）"></a>组合模式 （Composite）</h5><ul>
-<li><p>说明：组合成部分和整体的分层结构</p>
-</li>
-<li><p>结构</p>
-<ul>
-<li><p>Tree</p>
-</li>
-<li><p>TreeNode</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Tree tree = <span class="keyword">new</span> Tree(<span class="string">"A"</span>);</span><br><span class="line">        TreeNode childA = <span class="keyword">new</span> TreeNode(<span class="string">"B"</span>);</span><br><span class="line">        TreeNode childB = <span class="keyword">new</span> TreeNode(<span class="string">"C"</span>);</span><br><span class="line">        childB.getChildren().add(childA);</span><br><span class="line">        tree.setTreeNode(childB);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tree</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> TreeNode treeNode;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Tree</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        treeNode = <span class="keyword">new</span> TreeNode(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> TreeNode treeNode;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> List&lt;TreeNode&gt; children = <span class="keyword">new</span> ArrayList();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>适用场景</p>
-<ul>
-<li>比如部门组织列表</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><h5 id="适配器模式（Adapter）"><a href="#适配器模式（Adapter）" class="headerlink" title="适配器模式（Adapter）"></a>适配器模式（Adapter）</h5><ul>
-<li>说明</li>
-<li>结构</li>
-<li>适用场景</li>
-</ul>
-</li>
-<li><h5 id="装饰器模式（Decorator）"><a href="#装饰器模式（Decorator）" class="headerlink" title="装饰器模式（Decorator）"></a>装饰器模式（Decorator）</h5><ul>
-<li>说明</li>
-<li>结构</li>
-<li>适用场景</li>
-</ul>
-</li>
-<li><h5 id="桥接模式-（Bridge）"><a href="#桥接模式-（Bridge）" class="headerlink" title="桥接模式 （Bridge）"></a>桥接模式 （Bridge）</h5><ul>
-<li>说明</li>
-<li>结构</li>
-<li>适用场景</li>
-</ul>
-</li>
-<li><h5 id="享元模式（蝇量，FlyWeight）"><a href="#享元模式（蝇量，FlyWeight）" class="headerlink" title="享元模式（蝇量，FlyWeight）"></a>享元模式（蝇量，FlyWeight）</h5><ul>
-<li>说明</li>
-<li>结构</li>
-<li>适用场景</li>
-</ul>
-</li>
-</ol>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4>
+<p>注：按重要程度排序<br>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/05/13/设计模式-结构型/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
-    </div>
+    </p></blockquote></div>
 
     
 
